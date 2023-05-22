@@ -22,22 +22,16 @@ df = df[["Time", "ProductId", "UserId", "Score", "Summary", "Text"]]
 df = df.dropna()
 df["combined"] = ("Title: " + df.Summary.str.strip() + "; Content: " + df.Text.str.strip())
 
-st.dataframe(df.head(5))
-
 # subsample to 1k most recent reviews and remove samples that are too long
 top_n = 1000
 df = df.sort_values("Time").tail(top_n * 2)  # first cut to first 2k entries, assuming less than half will be filtered out
 df.drop("Time", axis=1, inplace=True)
-
-st.dataframe(df.head(5))
 
 encoding = tiktoken.get_encoding(embedding_encoding)
 
 # omit reviews that are too long to embed
 df["n_tokens"] = df.combined.apply(lambda x: len(encoding.encode(x)))
 df = df[df.n_tokens <= max_tokens].tail(top_n)
-
-st.dataframe(df.head(5))
 
 # use tiktoken library to count tokens in a string
 
@@ -55,8 +49,10 @@ openai.api_key ='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'
 
 # This may take a few minutes !!! This is the most costly task
 @st.cache_data
-#df["embedding"] = df.combined.apply(lambda x: get_embedding(x, engine=embedding_model))
-#df.to_csv("./fine_food_reviews_with_embeddings_1k.csv")
+df["embedding"] = df.combined.apply(lambda x: get_embedding(x, engine=embedding_model))
+df.to_csv("./fine_food_reviews_with_embeddings_1k.csv")
+
+st.write("OK!")
 
 @st.cache_data
 #input_datapath2 ="./fine_food_reviews_with_embeddings_1k.csv"
