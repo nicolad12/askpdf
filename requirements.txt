@@ -3,3 +3,4 @@ matplotlib
 tiktoken
 plotly
 scipy
+sklearn
