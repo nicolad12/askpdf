@@ -48,8 +48,8 @@ st.write(num_tokens_from_string("tiktoken is great!", "cl100k_base"))
 openai.api_key ='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'
 
 # This may take a few minutes !!! This is the most costly task
-@st.cache_data
 df["embedding"] = df.combined.apply(lambda x: get_embedding(x, engine=embedding_model))
+@st.cache_data
 df.to_csv("./fine_food_reviews_with_embeddings_1k.csv")
 
 st.write("OK!")
