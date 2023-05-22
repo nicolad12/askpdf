@@ -37,6 +37,8 @@ encoding = tiktoken.get_encoding(embedding_encoding)
 df["n_tokens"] = df.combined.apply(lambda x: len(encoding.encode(x)))
 df = df[df.n_tokens <= max_tokens].tail(top_n)
 
+st.dataframe(df.head(5))
+
 # use tiktoken library to count tokens in a string
 
 def num_tokens_from_string(string: str, encoding_name: str) -> int:
@@ -45,7 +47,7 @@ def num_tokens_from_string(string: str, encoding_name: str) -> int:
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
-num_tokens_from_string("tiktoken is great!", "cl100k_base")
+st.write(num_tokens_from_string("tiktoken is great!", "cl100k_base"))
 
 # Ensure you have your API key set in your environment per the README: https://github.com/openai/openai-python#usage
 
@@ -56,7 +58,7 @@ openai.api_key ='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'
 #df["embedding"] = df.combined.apply(lambda x: get_embedding(x, engine=embedding_model))
 #df.to_csv("./fine_food_reviews_with_embeddings_1k.csv")
 
-@st.cache_d#ata
+@st.cache_data
 #input_datapath2 ="./fine_food_reviews_with_embeddings_1k.csv"
 #df = pd.read_csv(input_datapath2)
 #df["embedding"] = df.embedding.apply(eval).apply(np.array)
