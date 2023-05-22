@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import tiktoken
 import openai
-from openai.embeddings_utils import get_embedding
+#from openai.embeddings_utils import get_embedding
 
 embedding_model = "text-embedding-ada-002"
 embedding_encoding = "cl100k_base"  # this the encoding for text-embedding-ada-002
