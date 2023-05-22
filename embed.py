@@ -25,6 +25,8 @@ df["combined"] = (
     "Title: " + df.Summary.str.strip() + "; Content: " + df.Text.str.strip()
 )
 
+st.dataframe(df.head(2))
+
 # subsample to 1k most recent reviews and remove samples that are too long
 top_n = 1000
 df = df.sort_values("Time").tail(top_n * 2)  # first cut to first 2k entries, assuming less than half will be filtered out
