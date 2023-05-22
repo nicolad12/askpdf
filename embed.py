@@ -14,7 +14,7 @@ max_tokens = 8000  # the maximum for text-embedding-ada-002 is 8191
 # save embeddings in a file
 
 
-input_datapath1 = "./example.csv"
+input_datapath1 = "./reviews_lim.csv"
 
 df = pd.read_csv(input_datapath1, index_col=0)
 df = df[["Time", "ProductId", "UserId", "Score", "Summary", "Text"]]
@@ -22,8 +22,6 @@ df = df.dropna()
 df["combined"] = (
     "Title: " + df.Summary.str.strip() + "; Content: " + df.Text.str.strip()
 )
-df.head(2)
-
 
 # subsample to 1k most recent reviews and remove samples that are too long
 top_n = 1000
@@ -35,7 +33,6 @@ encoding = tiktoken.get_encoding(embedding_encoding)
 # omit reviews that are too long to embed
 df["n_tokens"] = df.combined.apply(lambda x: len(encoding.encode(x)))
 df = df[df.n_tokens <= max_tokens].tail(top_n)
-len(df)
 
 # use tiktoken library to count tokens in a string
 
@@ -53,13 +50,11 @@ openai.api_key ='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'
 
 # This may take a few minutes !!! This is the most costly task
 df["embedding"] = df.combined.apply(lambda x: get_embedding(x, engine=embedding_model))
-df.to_csv("C:/Users/nicola.derrico/data/fine_food_reviews_with_embeddings_1k.csv")
+df.to_csv("./fine_food_reviews_with_embeddings_1k.csv")
 
-
-input_datapath2 ="C:/Users/nicola.derrico/data/fine_food_reviews_with_embeddings_1k.csv"
+input_datapath2 ="./fine_food_reviews_with_embeddings_1k.csv"
 df = pd.read_csv(input_datapath2)
 df["embedding"] = df.embedding.apply(eval).apply(np.array)
-
 
 # compare the cosine similarity of the embeddings of the query and the documents, and show top_n best matches.
 
