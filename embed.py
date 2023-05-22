@@ -45,7 +45,7 @@ st.write(num_tokens_from_string("tiktoken is great!", "cl100k_base"))
 
 # Ensure you have your API key set in your environment per the README: https://github.com/openai/openai-python#usage
 
-openai.api_key ='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'
+openai.api_key = st.secrets["api_key"]
 
 # This may take a few minutes !!! This is the most costly task
 df["embedding"] = df.combined.apply(lambda x: get_embedding(x, engine=embedding_model))
