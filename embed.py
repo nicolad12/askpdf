@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import tiktoken
 import openai
-#from openai.embeddings_utils import get_embedding
+from openai.embeddings_utils import get_embedding
 
 embedding_model = "text-embedding-ada-002"
 embedding_encoding = "cl100k_base"  # this the encoding for text-embedding-ada-002
@@ -20,10 +20,7 @@ input_datapath1 = "./reviews_lim.csv"
 df = pd.read_csv(input_datapath1, index_col=0)
 df = df[["Time", "ProductId", "UserId", "Score", "Summary", "Text"]]
 df = df.dropna()
-df["combined"] = (
-    "Title: " + df.Summary.str.strip() + "; Content: " + df.Text.str.strip()
-)
-
+df["combined"] = ("Title: " + df.Summary.str.strip() + "; Content: " + df.Text.str.strip())
 
 st.dataframe(df.head(5))
 
