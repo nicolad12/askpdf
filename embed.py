@@ -15,9 +15,9 @@ max_tokens = 8000  # the maximum for text-embedding-ada-002 is 8191
 
 # save embeddings in a file
 
-@st.cache_data
 input_datapath1 = "./reviews_lim.csv"
 
+@st.cache_data
 df = pd.read_csv(input_datapath1, index_col=0)
 df = df[["Time", "ProductId", "UserId", "Score", "Summary", "Text"]]
 df = df.dropna()
