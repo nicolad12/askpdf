@@ -1,6 +1,8 @@
+import streamlit as st
 import pandas as pd
 import numpy as np
 import tiktoken
+import openai
 from openai.embeddings_utils import get_embedding
 
 embedding_model = "text-embedding-ada-002"
@@ -13,7 +15,7 @@ max_tokens = 8000  # the maximum for text-embedding-ada-002 is 8191
 
 # save embeddings in a file
 
-
+@st.cache_data
 input_datapath1 = "./reviews_lim.csv"
 
 df = pd.read_csv(input_datapath1, index_col=0)
@@ -45,13 +47,15 @@ def num_tokens_from_string(string: str, encoding_name: str) -> int:
 num_tokens_from_string("tiktoken is great!", "cl100k_base")
 
 # Ensure you have your API key set in your environment per the README: https://github.com/openai/openai-python#usage
-import openai
+
 openai.api_key ='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'
 
 # This may take a few minutes !!! This is the most costly task
+@st.cache_data
 df["embedding"] = df.combined.apply(lambda x: get_embedding(x, engine=embedding_model))
 df.to_csv("./fine_food_reviews_with_embeddings_1k.csv")
 
+@st.cache_data
 input_datapath2 ="./fine_food_reviews_with_embeddings_1k.csv"
 df = pd.read_csv(input_datapath2)
 df["embedding"] = df.embedding.apply(eval).apply(np.array)
@@ -80,15 +84,9 @@ def search_reviews(df, product_description, n=3, pprint=True):
             print()
     return results
 
-import streamlit as st
-
 txt = st.text_area('Text to analyze', '''
     jamaica beans
     ''')
 results = search_reviews(df, txt , n=3)
 st.write("Text to search: 'jamaica beans'")
 st.write(results)
-
-
-
-
