@@ -80,7 +80,14 @@ def search_reviews(df, product_description, n=3, pprint=True):
             print()
     return results
 
-results = search_reviews(df, "jamaica beans", n=3)
+import streamlit as st
+
+txt = st.text_area('Text to analyze', '''
+    jamaica beans
+    ''')
+results = search_reviews(df, txt , n=3)
+st.write("Text to search: 'jamaica beans'")
+st.write(results)
 
 
 
