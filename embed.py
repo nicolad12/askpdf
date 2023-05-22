@@ -63,8 +63,6 @@ openai.api_key ='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'
 
 # compare the cosine similarity of the embeddings of the query and the documents, and show top_n best matches.
 
-from openai.embeddings_utils import get_embedding, cosine_similarity
-
 # search through the reviews for a specific product
 def search_reviews(df, product_description, n=3, pprint=True):
     product_embedding = get_embedding(
