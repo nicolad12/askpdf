@@ -24,12 +24,14 @@ df["combined"] = (
     "Title: " + df.Summary.str.strip() + "; Content: " + df.Text.str.strip()
 )
 
-st.dataframe(df.head(2))
+st.write(df.head(5))
 
 # subsample to 1k most recent reviews and remove samples that are too long
 top_n = 1000
 df = df.sort_values("Time").tail(top_n * 2)  # first cut to first 2k entries, assuming less than half will be filtered out
 df.drop("Time", axis=1, inplace=True)
+
+st.write(df.head(5))
 
 encoding = tiktoken.get_encoding(embedding_encoding)
 
@@ -53,13 +55,13 @@ openai.api_key ='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'
 
 # This may take a few minutes !!! This is the most costly task
 @st.cache_data
-df["embedding"] = df.combined.apply(lambda x: get_embedding(x, engine=embedding_model))
-df.to_csv("./fine_food_reviews_with_embeddings_1k.csv")
+#df["embedding"] = df.combined.apply(lambda x: get_embedding(x, engine=embedding_model))
+#df.to_csv("./fine_food_reviews_with_embeddings_1k.csv")
 
-@st.cache_data
-input_datapath2 ="./fine_food_reviews_with_embeddings_1k.csv"
-df = pd.read_csv(input_datapath2)
-df["embedding"] = df.embedding.apply(eval).apply(np.array)
+@st.cache_d#ata
+#input_datapath2 ="./fine_food_reviews_with_embeddings_1k.csv"
+#df = pd.read_csv(input_datapath2)
+#df["embedding"] = df.embedding.apply(eval).apply(np.array)
 
 # compare the cosine similarity of the embeddings of the query and the documents, and show top_n best matches.
 
@@ -88,6 +90,6 @@ def search_reviews(df, product_description, n=3, pprint=True):
 txt = st.text_area('Text to analyze', '''
     jamaica beans
     ''')
-results = search_reviews(df, txt , n=3)
+#results = search_reviews(df, txt , n=3)
 st.write("Text to search: 'jamaica beans'")
-st.write(results)
+#st.write(results)
