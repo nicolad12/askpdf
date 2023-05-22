@@ -24,14 +24,15 @@ df["combined"] = (
     "Title: " + df.Summary.str.strip() + "; Content: " + df.Text.str.strip()
 )
 
-st.write(df.head(5))
+
+st.dataframe(df.head(5))
 
 # subsample to 1k most recent reviews and remove samples that are too long
 top_n = 1000
 df = df.sort_values("Time").tail(top_n * 2)  # first cut to first 2k entries, assuming less than half will be filtered out
 df.drop("Time", axis=1, inplace=True)
 
-st.write(df.head(5))
+st.dataframe(df.head(5))
 
 encoding = tiktoken.get_encoding(embedding_encoding)
 
