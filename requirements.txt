@@ -1,3 +1,3 @@
 openai
 tiktoken
-get_embedding
+openai.get_embedding
