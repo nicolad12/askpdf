@@ -54,6 +54,11 @@ df.to_csv("./fine_food_reviews_with_embeddings_1k.csv")
 
 st.write("OK!")
 
+uploaded_file = st.file_uploader("Choose a file")
+if uploaded_file is not None:
+    # To read file as bytes:
+    bytes_data = uploaded_file.getvalue()
+
 @st.cache_data
 #input_datapath2 ="./fine_food_reviews_with_embeddings_1k.csv"
 #df = pd.read_csv(input_datapath2)
