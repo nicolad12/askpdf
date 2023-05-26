@@ -50,8 +50,8 @@ openai.api_key = st.secrets["api_key"]
 # This may take a few minutes !!! This is the most costly task
 df["embedding"] = df.combined.apply(lambda x: get_embedding(x, engine=embedding_model))
 
-# @st.cache_data(ttl=600)
-# def load_data(sheets_url):
+#@st.cache_data(ttl=600)
+#def load_data(sheets_url):
 #    csv_url = sheets_url.replace("/edit#gid=", "/export?format=csv&gid=")
 #    return pd.read_csv(csv_url)
 
